@@ -18,7 +18,18 @@ const resolvers = {
     },
   },
   Mutation: {
-    login: async () => {},
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+      const corrPass = await user.isCorrectPassword(password);
+      // user validation
+      if (!user || !corrPass) {
+        throw new AuthenticationError("Incorrect user or password!");
+      }
+
+      // assignes token to user
+      const token = signToken(user);
+      return { user, token };
+    },
     addUser: async () => {},
     saveBook: async () => {},
     removeBook: async () => {},
