@@ -45,6 +45,18 @@ const resolvers = {
         return savedBook;
       }
     },
-    removeBook: async () => {},
+    removeBook: async (parent, { bookId }, context) => {
+      if (context.user) {
+        const removeBook = await User.findByIdAndUpdate(
+          { _id: context.user._id },
+          { $pop: { savedBooks: { bookId } } },
+          { new: true }
+        );
+        return removeBook;
+      }
+    },
   },
 };
+
+// export
+module.exports = resolvers;
