@@ -18,6 +18,8 @@ import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
 import { useMutation } from "@apollo/client";
 
 const SearchBooks = () => {
+  // Use Mutation
+  const [saveBook, { err }] = useMutation(SAVE_BOOK);
   // create state for holding returned google api data
   const [searchedBooks, setSearchedBooks] = useState([]);
   // create state for holding our search field data
